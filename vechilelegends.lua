@@ -2,13 +2,13 @@
     Vehicle Legends | Pro Hub v2.1
     Auto Update + Auto Farm + Auto Race + Vehicle Mods
     UI: LinoriaLib
+    GitHub: rafkamers-ui/Vechile-legends-script
     Last Updated: 2026
 ]]
 
 -- ========== KONFIGURASI AUTO UPDATE ==========
 local SCRIPT_VERSION = "2.1.0"
-local SCRIPT_URL = "https://raw.githubusercontent.com/username/repo/main/vehiclelegends.lua"
--- Ganti URL di atas dengan URL script kamu sendiri di GitHub
+local SCRIPT_URL = "https://raw.githubusercontent.com/rafkamers-ui/Vechile-legends-script/main/vechilelegends.lua"
 
 -- ========== LOAD LIBRARY ==========
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Progoonerfrfr/LinoriaLib/main/Library.lua"))()
@@ -27,7 +27,7 @@ local LocalPlayer = Players.LocalPlayer
 -- ========== CEK UPDATE ==========
 task.spawn(function()
     pcall(function()
-        local latestVersion = game:HttpGet(SCRIPT_URL:gsub("%.lua$", ".version"))
+        local latestVersion = game:HttpGet("https://raw.githubusercontent.com/rafkamers-ui/Vechile-legends-script/main/vechilelegends.version")
         if latestVersion and latestVersion ~= SCRIPT_VERSION then
             Library:Notify("⚠️ Versi baru tersedia! Script akan di-update otomatis.", 5)
             task.wait(2)
@@ -106,7 +106,7 @@ RaceGroup:AddToggle("AutoRace", {
 RaceGroup:AddToggle("AutoWin", {
     Text = "Auto Win Race",
     Default = false,
-    Tooltip = "Otomatis menyelesaikan race (teleport ke checkpoint)"
+    Tooltip = "Otomatis menyelesaikan race"
 })
 
 RaceGroup:AddButton("Join Race Sekarang", function()
@@ -159,7 +159,7 @@ local VisualGroup = Tabs.Visual:AddLeftGroupbox("ESP & Visual")
 VisualGroup:AddToggle("ESP", {
     Text = "Player ESP",
     Default = false,
-    Tooltip = "Menampilkan nama & kotak pemain lain"
+    Tooltip = "Menampilkan nama pemain lain"
 })
 
 VisualGroup:AddToggle("FullBright", {
@@ -198,7 +198,6 @@ TpGroup:AddButton("Teleport ke Pemain", function()
     end
 end)
 
--- Update daftar pemain
 task.spawn(function()
     while true do
         local playerNames = {}
@@ -221,13 +220,11 @@ StatsGroup:AddLabel("Uang: Menghitung...")
 StatsGroup:AddLabel("Level: -")
 StatsGroup:AddLabel("Kendaraan Aktif: -")
 
--- Update stats
 task.spawn(function()
     while true do
         pcall(function()
             local money = LocalPlayer:GetAttribute("Money") or "N/A"
             local level = LocalPlayer:GetAttribute("Level") or "N/A"
-            -- Update label (perlu referensi label yang tepat)
         end)
         task.wait(5)
     end
@@ -257,17 +254,16 @@ SettingsGroup:AddButton("Unload Script", function()
     Library:Unload()
 end)
 
--- Theme & Save Manager
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 ThemeManager:ApplyToTab(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 -- ============================================================
--- LOGIC HANDLER (DENGAN ERROR HANDLING)
+-- LOGIC HANDLER
 -- ============================================================
 
--- Auto Farm Money (Mengemudi Otomatis)
+-- Auto Farm Money
 Toggles.AutoFarmMoney:OnChanged(function()
     if Toggles.AutoFarmMoney.Value then
         task.spawn(function()
@@ -288,7 +284,7 @@ Toggles.AutoFarmMoney:OnChanged(function()
     end
 end)
 
--- Auto Collect Items
+-- Auto Collect
 Toggles.AutoCollect:OnChanged(function()
     if Toggles.AutoCollect.Value then
         task.spawn(function()
@@ -354,7 +350,7 @@ Toggles.InfiniteBoost:OnChanged(function()
     end)
 end)
 
--- Unlock All Cars (client-side)
+-- Unlock All Cars
 Toggles.UnlockCars:OnChanged(function()
     pcall(function()
         if Toggles.UnlockCars.Value then
